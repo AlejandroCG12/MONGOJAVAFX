@@ -12,6 +12,7 @@ import com.mongodb.DBCursor;
 import com.mongodb.MongoClient;
 import java.net.URL;
 import java.util.ResourceBundle;
+import java.util.regex.Pattern;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -19,6 +20,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.TextArea;
 import org.omg.CORBA.portable.UnknownException;
 
 /**
@@ -33,10 +35,10 @@ public class FXMLDocumentController implements Initializable {
     
     @FXML
     private Button buttonRealizarConsulta;
-    
-    
     @FXML
     private ComboBox comboBoxConsultas;
+    @FXML
+    private TextArea TextArea;
     
     @FXML
     private void handleButtonActionRealizarConsulta(ActionEvent event) {
@@ -57,15 +59,12 @@ public class FXMLDocumentController implements Initializable {
         }
         else if(consulta.equals("Mostrar todos los menus que empiecen por la letra \"I\""))
         {
-        
+            consultarMenusConI();
         }
         else if(consulta.equals("Mostrar todos los chefs"))
         {
-        
-        }
-        
-        
-        
+            consultarChefs();
+        }    
     }
     
     @Override
@@ -84,9 +83,7 @@ public class FXMLDocumentController implements Initializable {
                 "Mostrar todos los chefs");
         comboBoxConsultas.setItems(consultas);
     }    
-
-    
-    
+ 
     private static MongoClient crearConexion() {
         MongoClient mongo = null;
         try{
@@ -99,39 +96,72 @@ public class FXMLDocumentController implements Initializable {
     }
 
     private void consultarPlatosMasDe600Calorias() {
-        BasicDBObject query = new BasicDBObject();
-        query.put("vigente", true);
-        DBCursor cursor = colMenu.find(query);
+        TextArea.setText("");
+        BasicDBObject getQuery = new BasicDBObject();
+        getQuery.put("calorias", new BasicDBObject("$gt", 600));
+        DBCursor cursor = colPlato.find(getQuery);
         while(cursor.hasNext())
         {
             BasicDBObject objeto = (BasicDBObject) cursor.next();
-            
-            System.out.println(objeto.get("nombre"));
-            System.out.println(objeto.get("fecha_inicio"));
-            System.out.println(objeto.get("fecha_fin"));
-            System.out.println(((BasicDBObject) objeto.get("chef")).get("nombre"));
-            System.out.println(((BasicDBObject) objeto.get("chef")).get("experiencia"));
-            System.out.println(((BasicDBObject) objeto.get("chef")).get("email"));
-            
+            String cadena = "Nombre: "+(String)objeto.get("nombre")+", Calorias: "+String.valueOf(objeto.get("calorias"))+", Valor real: "+
+            String.valueOf(objeto.get("valor_real"))+", Valor comercial: "+String.valueOf(objeto.get("valor_comercial"))+", Receta: "+
+            String.valueOf(objeto.get("receta"));   
+            TextArea.setText(cadena+"\n"+TextArea.getText());            
         }
     }
 
     private void consultarPlatosMenosDe4000ValorReal() {
-        BasicDBObject consulta = new BasicDBObject();
-        consulta.put("valor_real", new BasicDBObject("$lt", 4000));
-        DBCursor cursor = colPlato.find(consulta);
-        while(cursor.hasNext())
-        {
+        TextArea.setText("");
+        BasicDBObject getQuery = new BasicDBObject();
+        getQuery.put("valor_real", new BasicDBObject("$lt", 4000));
+        DBCursor cursor = colPlato.find(getQuery);
+        while(cursor.hasNext()){
             BasicDBObject objeto = (BasicDBObject) cursor.next();
+            String cadena = "Nombre: "+(String)objeto.get("nombre")+", Calorias: "+String.valueOf(objeto.get("calorias"))+", Valor real: "+
+            String.valueOf(objeto.get("valor_real"))+", Valor comercial: "+String.valueOf(objeto.get("valor_comercial"))+", Receta: "+
+            String.valueOf(objeto.get("receta"));
             
-            System.out.println(objeto.get("nombre"));
-            System.out.println(objeto.get("calorias"));
-            System.out.println(objeto.get("valor_real"));
+            TextArea.setText(cadena+"\n"+TextArea.getText());
         }
     }
 
     private void consultarAlbondigas() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        TextArea.setText("");
+        BasicDBObject getQuery = new BasicDBObject();
+        BasicDBObject fields = new BasicDBObject("nombre", 1).append("ingredientes", 1);
+        getQuery.put("nombre", "Albondigas");
+        DBCursor cursor = colPlato.find(getQuery,fields);
+        while(cursor.hasNext()){
+            BasicDBObject objeto = (BasicDBObject) cursor.next();
+            String cadena = "Nombre: "+(String)objeto.get("nombre");
+            
+            TextArea.setText(cadena+"\n"+TextArea.getText());
+        }
     }
     
+    private void consultarMenusConI() {
+        TextArea.setText("");
+        Pattern I = Pattern.compile("I", Pattern.LITERAL);
+        BasicDBObject getQuery = new BasicDBObject("nombre",I);
+        DBCursor cursor = colMenu.find(getQuery);
+        while(cursor.hasNext()){
+            BasicDBObject objeto = (BasicDBObject) cursor.next();
+            String cadena = "Nombre: "+(String)objeto.get("nombre")+", Vigente: "+String.valueOf(objeto.get("vigente"))+", Fecha inicio: "+
+            String.valueOf(objeto.get("fecha_inicio"))+", Fecha fin: "+(String.valueOf(objeto.get("fecha_fin")));
+            TextArea.setText(cadena+"\n"+TextArea.getText());  
+        }
+    }
+    
+    private void consultarChefs(){
+        TextArea.setText("");
+        BasicDBObject getQuery = new BasicDBObject();
+        BasicDBObject fields = new BasicDBObject("chef", 1);
+        DBCursor cursor = colMenu.find(getQuery,fields);
+        while(cursor.hasNext()){
+            BasicDBObject objeto = (BasicDBObject) cursor.next();
+            String cadena = "Nombre: "+((BasicDBObject)objeto.get("chef")).get("nombre")
+            +", Experiencia: "+((BasicDBObject)objeto.get("chef")).get("experiencia")+", Email: "+((BasicDBObject)objeto.get("chef")).get("email");
+            TextArea.setText(cadena+"\n"+TextArea.getText());  
+        }
+    }
 }
