@@ -3,10 +3,13 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package restaurantemongo;
+package Control;
 
+import java.io.IOException;
 import javafx.application.Application;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
@@ -19,12 +22,20 @@ public class RestauranteMongo extends Application {
     
     @Override
     public void start(Stage stage) throws Exception {
-        Parent root = FXMLLoader.load(getClass().getResource("FXMLDocument.fxml"));
-        
+        Parent root = FXMLLoader.load(getClass().getResource("/Vista/Consultas.fxml"));
+        stage.setTitle("Restaurante");
         Scene scene = new Scene(root);
-        
         stage.setScene(scene);
         stage.show();
+    }
+    
+    public static void changeScene(String fxml, ActionEvent event) throws IOException {
+        Parent homeParent = FXMLLoader.load(RestauranteMongo.class.getResource("/Vista/"+fxml));
+        Scene homeScene = new Scene(homeParent);
+        Stage appStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        appStage.hide();
+        appStage.setScene(homeScene);
+        appStage.show();
     }
 
     /**

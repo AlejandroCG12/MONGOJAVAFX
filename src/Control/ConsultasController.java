@@ -3,13 +3,14 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package restaurantemongo;
+package Control;
 
 import com.mongodb.BasicDBObject;
 import com.mongodb.DB;
 import com.mongodb.DBCollection;
 import com.mongodb.DBCursor;
 import com.mongodb.MongoClient;
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 import java.util.regex.Pattern;
@@ -27,7 +28,7 @@ import org.omg.CORBA.portable.UnknownException;
  *
  * @author andrns.arcila
  */
-public class FXMLDocumentController implements Initializable {
+public class ConsultasController implements Initializable {
     
     DB db;
     DBCollection colPlato;
@@ -65,6 +66,11 @@ public class FXMLDocumentController implements Initializable {
         {
             consultarChefs();
         }    
+    }
+    
+    @FXML
+    private void handleButtonActionInsertarMenu(ActionEvent event) throws IOException {
+        RestauranteMongo.changeScene("Menu.fxml", event);
     }
     
     @Override
@@ -164,4 +170,7 @@ public class FXMLDocumentController implements Initializable {
             TextArea.setText(cadena+"\n"+TextArea.getText());  
         }
     }
+    
+    
+    
 }
