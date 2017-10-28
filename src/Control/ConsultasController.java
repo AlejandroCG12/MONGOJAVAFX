@@ -21,6 +21,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextArea;
 import org.omg.CORBA.portable.UnknownException;
 
@@ -90,7 +91,7 @@ public class ConsultasController implements Initializable {
         comboBoxConsultas.setItems(consultas);
     }    
  
-    private static MongoClient crearConexion() {
+    public static MongoClient crearConexion() {
         MongoClient mongo = null;
         try{
             mongo = new MongoClient("localhost", 27017);

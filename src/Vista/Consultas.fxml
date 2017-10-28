@@ -17,7 +17,7 @@
         <menus>
           <Menu mnemonicParsing="false" text="Archivo">
             <items>
-              <MenuItem mnemonicParsing="false" onAction="#handleButtonActionInsertarMenu" text="Insertar menu" />
+              <MenuItem fx:id="InsertM" mnemonicParsing="false" onAction="#handleButtonActionInsertarMenu" text="Insertar menu" />
                   <MenuItem mnemonicParsing="false" text="Insertar plato" />
             </items>
           </Menu>
@@ -28,5 +28,7 @@
           </Menu>
         </menus>
       </MenuBar>
+      <Button fx:id="buttonRealizarConsulta1" layoutX="319.0" layoutY="47.0" onAction="#handleButtonActionInsertarMenu" text="Insertar menu" />
+      <Button fx:id="buttonRealizarConsulta11" layoutX="426.0" layoutY="47.0" text="Insertar plato" />
     </children>
 </AnchorPane>

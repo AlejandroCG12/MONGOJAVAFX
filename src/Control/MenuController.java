@@ -5,6 +5,9 @@
  */
 package Control;
 
+import com.mongodb.DB;
+import com.mongodb.DBCollection;
+import com.mongodb.MongoClient;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.fxml.Initializable;
@@ -16,12 +19,16 @@ import javafx.fxml.Initializable;
  */
 public class MenuController implements Initializable {
 
-    /**
-     * Initializes the controller class.
-     */
+    DB db;
+    DBCollection colPlato;
+    DBCollection colMenu;
+    
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // TODO
+        MongoClient mongo = ConsultasController.crearConexion();
+        db = mongo.getDB("Restaurante");
+        colPlato = db.getCollection("Plato");
+        colMenu = db.getCollection("Menu");
     }    
     
 }
