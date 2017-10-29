@@ -98,14 +98,20 @@ public class ConsultasController implements Initializable {
         getQuery.put("calorias", new BasicDBObject("$gt", 600));
         DBCursor cursor = colPlato.find(getQuery);
         System.out.println(cursor.hasNext());
+        
+        String cadena = "";
+        
         while(cursor.hasNext())
         {
             BasicDBObject objeto = (BasicDBObject) cursor.next();
-            String cadena = "Nombre: "+(String)objeto.get("nombre")+", Calorias: "+String.valueOf(objeto.get("calorias"))+", Valor real: "+
+            cadena += "Nombre: "+(String)objeto.get("nombre")+", Calorias: "+String.valueOf(objeto.get("calorias"))+", Valor real: "+
             String.valueOf(objeto.get("valor_real"))+", Valor comercial: "+String.valueOf(objeto.get("valor_comercial"))+", Receta: "+
             String.valueOf(objeto.get("receta"));   
-            TextArea.setText(cadena+"\n"+TextArea.getText());            
+            
+            cadena += "\n";            
         }
+        
+        TextArea.setText(cadena);
     }
 
     private void consultarPlatosMenosDe4000ValorReal() {
@@ -113,14 +119,19 @@ public class ConsultasController implements Initializable {
         BasicDBObject getQuery = new BasicDBObject();
         getQuery.put("valor_real", new BasicDBObject("$lt", 4000));
         DBCursor cursor = colPlato.find(getQuery);
+        
+        String cadena = "";
+        
         while(cursor.hasNext()){
             BasicDBObject objeto = (BasicDBObject) cursor.next();
-            String cadena = "Nombre: "+(String)objeto.get("nombre")+", Calorias: "+String.valueOf(objeto.get("calorias"))+", Valor real: "+
+            cadena += "Nombre: "+(String)objeto.get("nombre")+", Calorias: "+String.valueOf(objeto.get("calorias"))+", Valor real: "+
             String.valueOf(objeto.get("valor_real"))+", Valor comercial: "+String.valueOf(objeto.get("valor_comercial"))+", Receta: "+
             String.valueOf(objeto.get("receta"));
             
-            TextArea.setText(cadena+"\n"+TextArea.getText());
+            cadena += "\n";
         }
+        
+        TextArea.setText(cadena);
     }
 
     private void consultarAlbondigas() {
