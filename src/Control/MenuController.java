@@ -25,10 +25,9 @@ public class MenuController implements Initializable {
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        MongoClient mongo = ConsultasController.crearConexion();
-        db = mongo.getDB("Restaurante");
-        colPlato = db.getCollection("Plato");
-        colMenu = db.getCollection("Menu");
+        db = Util.conectarBaseDatos();
+        colPlato = Util.conectarCollection(db, "plato");
+        colMenu = Util.conectarCollection(db, "menu");
     }    
     
 }

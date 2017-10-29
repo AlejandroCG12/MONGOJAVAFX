@@ -31,9 +31,9 @@ import org.omg.CORBA.portable.UnknownException;
  */
 public class ConsultasController implements Initializable {
     
-    DB db;
-    DBCollection colPlato;
-    DBCollection colMenu;
+    private DB db;
+    private DBCollection colPlato;
+    private DBCollection colMenu;
     
     @FXML
     private Button buttonRealizarConsulta;
@@ -77,10 +77,9 @@ public class ConsultasController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
-        MongoClient mongo = crearConexion();
-        db = mongo.getDB("Restaurante");
-        colPlato = db.getCollection("Plato");
-        colMenu = db.getCollection("Menu");
+        db = Util.conectarBaseDatos();
+        colPlato = Util.conectarCollection(db, "Plato");
+        colMenu = Util.conectarCollection(db, "Menu");
         
         ObservableList<String> consultas = FXCollections.observableArrayList(
                 "Mostrar todos los platos con más de 600 calorias",
@@ -91,23 +90,14 @@ public class ConsultasController implements Initializable {
         comboBoxConsultas.setItems(consultas);
     }    
  
-    public static MongoClient crearConexion() {
-        MongoClient mongo = null;
-        try{
-            mongo = new MongoClient("localhost", 27017);
-        }catch(UnknownException ex){
-            ex.printStackTrace();
-        }
-        //fwsfesf
-        
-        return mongo;
-    }
+    
 
     private void consultarPlatosMasDe600Calorias() {
         TextArea.setText("");
         BasicDBObject getQuery = new BasicDBObject();
         getQuery.put("calorias", new BasicDBObject("$gt", 600));
         DBCursor cursor = colPlato.find(getQuery);
+        System.out.println(cursor.hasNext());
         while(cursor.hasNext())
         {
             BasicDBObject objeto = (BasicDBObject) cursor.next();
@@ -172,6 +162,8 @@ public class ConsultasController implements Initializable {
             TextArea.setText(cadena+"\n"+TextArea.getText());  
         }
     }
+
+    
     
     
     
