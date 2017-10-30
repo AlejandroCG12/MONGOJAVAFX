@@ -5,6 +5,7 @@
  */
 package control;
 
+import com.mongodb.BasicDBObject;
 import com.mongodb.DB;
 import com.mongodb.DBCollection;
 import com.mongodb.MongoClient;
@@ -36,7 +37,7 @@ public class MenuController implements Initializable {
     DB db;
     DBCollection colPlato;
     DBCollection colMenu;
-    
+
     @FXML
     private ComboBox comboBoxPlatos;
     @FXML
@@ -53,24 +54,23 @@ public class MenuController implements Initializable {
     private TextField textFieldExperiencia;
     @FXML
     private TextField textFieldEmail;
-    
+
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         db = Util.conectarBaseDatos();
         colPlato = Util.conectarCollection(db, Plato.class);
         colMenu = Util.conectarCollection(db, Menu.class);
-        
+
         LinkedList<Plato> platos = (LinkedList<Plato>) Util.buscar(colPlato, Menu.class, null);
-        ObservableList<String> PlatosNombres = FXCollections.observableArrayList();        
+        ObservableList<String> PlatosNombres = FXCollections.observableArrayList();
         for (Plato plato : platos) {
             PlatosNombres.add(plato.getNombre());
         }
-        
-        
+
         comboBoxPlatos.setItems(PlatosNombres);
-        
-    }    
-    
+
+    }
+
     @FXML
     private void handleButtonActionInsertarMenu(ActionEvent event) {
         String nombre = textFieldNombre.getText();
@@ -79,14 +79,29 @@ public class MenuController implements Initializable {
         System.out.println(fechaInicio);
 //        Menu menu = new Menu(nombre, vigente, fechaInicio, fechaFin, chef, platos);
     }
-    
+
     @FXML
-    private void handleButtonActionInsertarPlato(ActionEvent event){
-        
-        System.out.println(comboBoxPlatos.getValue());
-//        comboBoxPlatos.
-        
+    private void handleButtonActionInsertarPlato(ActionEvent event) {
+
+        String nombrePlato = comboBoxPlatos.getValue() + "";
+        System.out.println(nombrePlato);
+        System.out.println("-----------------------------------------------------");
+        if (nombrePlato != null) {
+            BasicDBObject getQuery = new BasicDBObject();
+            getQuery.put("nombre", nombrePlato);
+            LinkedList<Plato> platos = (LinkedList<Plato>) Util.buscar(colPlato, Plato.class, getQuery);
+            System.out.println(platos);
+            
+            ObservableList<String> PlatosNombres = FXCollections.observableArrayList();
+            for (Plato plato : platos) {
+                if (!plato.getNombre().equals(nombrePlato)) {
+                    PlatosNombres.add(plato.getNombre());
+                }
+
+            }
+            comboBoxPlatos.setItems(PlatosNombres);
+        }
+
     }
-    
-    
+
 }
