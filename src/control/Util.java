@@ -58,14 +58,11 @@ public class Util {
 
         LinkedList<BasicDBObject> xxx = new LinkedList<>();
 
-        String cadena = "";
-
         while (cursor.hasNext()) {
             DBObject objeto = cursor.next();
 
             xxx.add((BasicDBObject) objeto);  
 
-            cadena += "\n";
         }
         return xxx;
     }
