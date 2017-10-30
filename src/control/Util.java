@@ -8,7 +8,10 @@ package control;
 import com.mongodb.BasicDBObject;
 import com.mongodb.DB;
 import com.mongodb.DBCollection;
+import com.mongodb.DBCursor;
+import com.mongodb.DBObject;
 import com.mongodb.MongoClient;
+import java.util.LinkedList;
 import org.omg.CORBA.portable.UnknownException;
 
 /**
@@ -47,5 +50,23 @@ public class Util {
         collection.setObjectClass(c);
         
         return collection;
+    }
+    
+    public static LinkedList<? extends BasicDBObject> buscar(DBCollection collection, Class<? extends BasicDBObject> clase, BasicDBObject getQuery) {
+        collection.getCollection(clase.getSimpleName());
+        DBCursor cursor = collection.find(getQuery);
+
+        LinkedList<BasicDBObject> xxx = new LinkedList<>();
+
+        String cadena = "";
+
+        while (cursor.hasNext()) {
+            DBObject objeto = cursor.next();
+
+            xxx.add((BasicDBObject) objeto);  
+
+            cadena += "\n";
+        }
+        return xxx;
     }
 }

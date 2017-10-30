@@ -7,8 +7,10 @@ package modelo;
 
 import com.mongodb.BasicDBObject;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Set;
 
 /**
  *
@@ -22,6 +24,41 @@ public class Menu extends BasicDBObject
     private final String FECHA_FIN = "fecha_fin";
     private final String CHEF = "chef";
     private final String PLATOS = "platos";
+    
+    private boolean partial;
+    
+    public Menu()
+    {
+        this.partial = true;
+    }
+    
+    public Menu(String nombre, boolean vigente, Date fechaInicio, Date fechaFin, Chef chef, List<String> platos)
+    {
+        put(NOMBRE, nombre);
+        put(VIGENTE, vigente);
+        put(FECHA_INICIO, fechaInicio);
+        put(FECHA_FIN, fechaFin);
+        put(CHEF, chef);
+        put(PLATOS, platos);
+
+        this.markAsPartialObject();
+    }
+    
+    @Override
+    public void markAsPartialObject() {
+        Set<String> set = keySet();
+        set.remove("_id");
+        
+        Set<String> setThis = new HashSet<>();
+        setThis.add(NOMBRE);
+        setThis.add(VIGENTE);
+        setThis.add(FECHA_INICIO);
+        setThis.add(FECHA_FIN);
+        setThis.add(CHEF);
+        setThis.add(PLATOS);
+        
+        partial =  !set.equals(setThis);
+    }
     
     public String getNombre() {
         return getString(NOMBRE);

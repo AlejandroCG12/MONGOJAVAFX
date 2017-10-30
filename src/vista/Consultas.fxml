@@ -22,7 +22,7 @@
         <menus>
           <Menu mnemonicParsing="false" text="Archivo">
             <items>
-              <MenuItem fx:id="InsertM" mnemonicParsing="false" onAction="#handleButtonActionInsertarMenu" text="Insertar menu" />
+              <MenuItem fx:id="menuItemInsertarMenu" mnemonicParsing="false" onAction="#handleButtonActionInsertarMenu" onMenuValidation="#handleButtonActionInsertarMenu" text="Insertar menu" />
                   <MenuItem mnemonicParsing="false" text="Insertar plato" />
             </items>
           </Menu>

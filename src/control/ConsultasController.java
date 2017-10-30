@@ -106,30 +106,14 @@ public class ConsultasController implements Initializable {
         RestauranteMongo.changeScene("Menu.fxml", event);
     }
 
-    private LinkedList<? extends BasicDBObject> buscar(DBCollection collection, Class<? extends BasicDBObject> clase, BasicDBObject getQuery) {
-        collection.getCollection(clase.getSimpleName());
-        DBCursor cursor = collection.find(getQuery);
-
-        LinkedList<BasicDBObject> xxx = new LinkedList<>();
-
-        String cadena = "";
-
-        while (cursor.hasNext()) {
-            DBObject objeto = cursor.next();
-
-            xxx.add((BasicDBObject) objeto);  
-
-            cadena += "\n";
-        }
-        return xxx;
-    }
+    
 
     private void consultarPlatosMasDe600Calorias() {
         TextArea.setText("");
 
         BasicDBObject getQuery = new BasicDBObject();
         getQuery.put("calorias", new BasicDBObject("$gt", 600));
-        LinkedList<Plato> platos = (LinkedList<Plato>) buscar(colPlato, Plato.class, getQuery);
+        LinkedList<Plato> platos = (LinkedList<Plato>) Util.buscar(colPlato, Plato.class, getQuery);
         
         htmlConsultas = "<table border=1 width=100%><tr><th>nombre</th>"
                 + "<th>calorias</th>"
@@ -169,7 +153,7 @@ public class ConsultasController implements Initializable {
         TextArea.setText("");
         BasicDBObject getQuery = new BasicDBObject();
         getQuery.put("valor_real", new BasicDBObject("$lt", 4000));
-        LinkedList<Plato> platos = (LinkedList<Plato>) buscar(colPlato, Plato.class, getQuery);
+        LinkedList<Plato> platos = (LinkedList<Plato>) Util.buscar(colPlato, Plato.class, getQuery);
         
         htmlConsultas = "<table border=1 width=100%><tr><th>nombre</th>"
                 + "<th>calorias</th>"
@@ -224,7 +208,7 @@ public class ConsultasController implements Initializable {
         TextArea.setText("");
         Pattern I = Pattern.compile("I", Pattern.LITERAL);
         BasicDBObject getQuery = new BasicDBObject("nombre", I);
-        LinkedList<Menu> menus = (LinkedList<Menu>) buscar(colMenu, Menu.class, getQuery);
+        LinkedList<Menu> menus = (LinkedList<Menu>) Util.buscar(colMenu, Menu.class, getQuery);
 
         htmlConsultas = "<table border=1 width=100%><tr><th>nombre</th>"
                 + "<th>vigente</th>"
@@ -243,13 +227,33 @@ public class ConsultasController implements Initializable {
             String htmlChef = menu.getChef().getNombre() + "\n" + menu.getChef().getExperiencia() + " años de experiencia\n"
                     + menu.getChef().getEmail();
             
-            List<String> platos = menu.getPlatosIDs();
+            htmlConsultas += "<th title=\"" + htmlChef + "\">" + menu.getChef().getNombre()+ "</th>";
             
-            for (String plato : platos) {
+            List<String> platosIDs = menu.getPlatosIDs();
+            
+            
+            LinkedList<Plato> platos = null; 
+            String htmlPlato = "";
+            for (String platoID : platosIDs) {
+                BasicDBObject getQueryP = new BasicDBObject();
+                getQueryP.put("_id", platoID);   
+                platos = (LinkedList<Plato>) Util.buscar(colPlato, Plato.class, getQueryP);
+                if(platos.size() == 1)
+                {
+                    htmlPlato = platos.getFirst().getNombre() + ": $" + platos.getFirst().getValorComercial();
+                }
                 
+            }           
+            
+            if(platos != null && platos.size() == 1)
+            {
+                htmlConsultas += "<th title=\"" + htmlPlato + "\">" + platos.getFirst().getNombre() + "</th>";
+            }
+            else if(platos == null)
+            {
+                htmlConsultas += "<th>no hay platos</th>";
             }
             
-            htmlConsultas += "<th title=\"" + htmlChef + "\">" + menu.getChef().getNombre()+ "</th>";
             
             htmlConsultas += "</tr>";
         }
