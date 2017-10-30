@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.web.*?>
+<?import javafx.scene.canvas.*?>
+<?import java.lang.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane id="AnchorPane" prefHeight="351.0" prefWidth="583.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="control.ConsultasController">
+    <children>
+        <Button fx:id="buttonRealizarConsulta" layoutX="200.0" layoutY="47.0" onAction="#handleButtonActionRealizarConsulta" text="Realizar consulta" />
+      <ComboBox fx:id="comboBoxConsultas" layoutX="34.0" layoutY="47.0" prefWidth="150.0" />
+      <TextArea fx:id="TextArea" layoutX="34.0" layoutY="89.0" prefHeight="37.0" prefWidth="503.0" />
+      <MenuBar layoutY="1.0" prefHeight="25.0" prefWidth="583.0">
+        <menus>
+          <Menu mnemonicParsing="false" text="Archivo">
+            <items>
+              <MenuItem fx:id="InsertM" mnemonicParsing="false" onAction="#handleButtonActionInsertarMenu" text="Insertar menu" />
+                  <MenuItem mnemonicParsing="false" text="Insertar plato" />
+            </items>
+          </Menu>
+          <Menu mnemonicParsing="false" text="Help">
+            <items>
+              <MenuItem mnemonicParsing="false" text="About" />
+            </items>
+          </Menu>
+        </menus>
+      </MenuBar>
+      <Button fx:id="buttonRealizarConsulta1" layoutX="319.0" layoutY="47.0" onAction="#handleButtonActionInsertarMenu" text="Insertar menu" />
+      <Button fx:id="buttonRealizarConsulta11" layoutX="426.0" layoutY="47.0" text="Insertar plato" />
+      <WebView fx:id="webViewConsultas" layoutX="34.0" layoutY="134.0" prefHeight="197.0" prefWidth="503.0" />
+    </children>
+</AnchorPane>
