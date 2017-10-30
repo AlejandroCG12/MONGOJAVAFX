@@ -72,12 +72,20 @@ public class MenuController implements Initializable {
     }    
     
     @FXML
-    private void handleButtonActionInsertarMenu(ActionEvent event) throws IOException {
+    private void handleButtonActionInsertarMenu(ActionEvent event) {
         String nombre = textFieldNombre.getText();
         boolean vigente = checkBoxVigente.isSelected();
         Date fechaInicio = Date.from(datePickerFechaInicio.valueProperty().getValue().atStartOfDay(ZoneId.systemDefault()).toInstant());
-        
+        System.out.println(fechaInicio);
 //        Menu menu = new Menu(nombre, vigente, fechaInicio, fechaFin, chef, platos);
+    }
+    
+    @FXML
+    private void handleButtonActionInsertarPlato(ActionEvent event){
+        
+        System.out.println(comboBoxPlatos.getValue());
+//        comboBoxPlatos.
+        
     }
     
     
