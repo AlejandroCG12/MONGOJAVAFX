@@ -28,6 +28,7 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextField;
 import modelo.Chef;
+import modelo.Ingrediente;
 import modelo.Menu;
 import modelo.Plato;
 
@@ -94,14 +95,7 @@ public class MenuController implements Initializable {
         //platos.add((String)comboBoxPlatos.getValue());
         
         Menu menu = new Menu(nombre, vigente, inicio, fin, chef, platos);
-        BasicDBObject objeto= new BasicDBObject();
-        objeto.put("nombre", menu.getNombre());
-        objeto.put("vigente", menu.getVigente());
-        objeto.put("fecha_inicio", menu.getFechaInicio());
-        objeto.put("fecha_fin", menu.getFechaFin());
-        objeto.put("chef", new BasicDBObject("nombre",menu.getChef().getNombre()).append("experiencia", menu.getChef().getExperiencia()).append("email", menu.getChef().getEmail()));
-        //objeto.put("platos", menu.getNombre());
-        colMenu.insert(objeto);
+        colMenu.insert(menu);
         
     }
 
