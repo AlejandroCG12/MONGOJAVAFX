@@ -10,9 +10,8 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane id="AnchorPane" prefHeight="501.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="control.MenuController">
+<AnchorPane id="AnchorPane" prefHeight="501.0" prefWidth="669.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="control.MenuController">
    <children>
-      <ComboBox fx:id="comboBoxPlatos" layoutX="174.0" layoutY="319.0" onAction="#handleButtonActionInsertarPlato" prefWidth="150.0" />
       <TextField fx:id="textFieldNombre" layoutX="95.0" layoutY="52.0" />
       <Text layoutX="14.0" layoutY="65.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Nombre" wrappingWidth="47.13671875" />
       <CheckBox fx:id="checkBoxVigente" layoutX="95.0" layoutY="92.0" mnemonicParsing="false" text="¿Vigente?" underline="true" />
@@ -33,12 +32,14 @@
       <TextField fx:id="textFieldEmail" layoutX="249.0" layoutY="246.0" />
       <Button layoutX="155.0" layoutY="452.0" mnemonicParsing="false" onAction="#handleButtonActionInsertarMenu" prefHeight="25.0" prefWidth="73.0" text="Insertar" />
       <Text layoutX="108.0" layoutY="336.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Platos" wrappingWidth="65.13671875" />
-      <TextArea layoutX="362.0" layoutY="287.0" prefHeight="103.0" prefWidth="236.0" />
-      <Text layoutX="10.0" layoutY="34.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Menu" wrappingWidth="55.13671875">
+      <TextArea fx:id="textAreaPlatos" layoutX="362.0" layoutY="287.0" prefHeight="103.0" prefWidth="236.0" />
+      <Text layoutX="9.0" layoutY="41.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Menu" wrappingWidth="65.13671278953552">
          <font>
             <Font size="25.0" />
          </font>
       </Text>
       <Button layoutX="326.0" layoutY="452.0" mnemonicParsing="false" onAction="#handleButtonActionSalir" prefHeight="25.0" prefWidth="73.0" text="Salir" />
+      <ComboBox fx:id="comboBoxPlatos" layoutX="169.0" layoutY="319.0" prefWidth="150.0" />
+      <Button layoutX="190.0" layoutY="356.0" mnemonicParsing="false" onAction="#handleButtonActionInsertarPlato" text="Agregar plato" />
    </children>
 </AnchorPane>

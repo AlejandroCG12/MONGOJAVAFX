@@ -54,6 +54,10 @@ public class Plato extends BasicDBObject {
         partial =  !set.equals(setThis);
     }
 
+    public String getID() {
+        return getString("_id");
+    }
+    
     public String getNombre ()
     {
         return getString(NOMBRE);

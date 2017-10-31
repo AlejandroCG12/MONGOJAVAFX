@@ -26,6 +26,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
+import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import modelo.Chef;
 import modelo.Ingrediente;
@@ -39,11 +40,15 @@ import modelo.Plato;
  */
 public class MenuController implements Initializable {
 
-    DB db;
-    DBCollection colPlato;
-    DBCollection colMenu;
+    private DB db;
+    private DBCollection colPlato;
+    private DBCollection colMenu;
     
+    private List<String> platosIDs;
+
     
+    @FXML
+    private TextArea textAreaPlatos;
     @FXML
     private ComboBox comboBoxPlatos;
     @FXML
@@ -73,6 +78,8 @@ public class MenuController implements Initializable {
             PlatosNombres.add(plato.getNombre());
         }
         comboBoxPlatos.setItems(PlatosNombres);
+        
+        platosIDs = new LinkedList<>();
 
     }
 
@@ -89,40 +96,38 @@ public class MenuController implements Initializable {
         String nombrechef = textFieldNombreChef.getText();
         Double exp = Double.parseDouble(textFieldExperiencia.getText());
         String email = textFieldEmail.getText();
-        Chef chef = new Chef(nombrechef,exp,email);
-        
-        List<String> platos = null;
-        //platos.add((String)comboBoxPlatos.getValue());
-        
-        Menu menu = new Menu(nombre, vigente, inicio, fin, chef, platos);
+        Chef chef = new Chef(nombrechef, exp, email);
+
+        Menu menu = new Menu(nombre, vigente, inicio, fin, chef, platosIDs);
         colMenu.insert(menu);
-        
+        platosIDs.clear();
+
     }
 
     @FXML
     private void handleButtonActionInsertarPlato(ActionEvent event) {
 
+        String platosSeleccionadosCadena = textAreaPlatos.getText();
+        
         String nombrePlato = comboBoxPlatos.getValue() + "";
-        System.out.println(nombrePlato);
-        System.out.println("-----------------------------------------------------");
         BasicDBObject getQuery = new BasicDBObject();
         getQuery.put("nombre", nombrePlato);
         LinkedList<Plato> platos = (LinkedList<Plato>) Util.buscar(colPlato, Plato.class, getQuery);
         System.out.println(platos);
-          
-        if(comboBoxPlatos.getItems().contains(nombrePlato))
-        {
-            System.out.println(comboBoxPlatos.getValue() + " a");
-            comboBoxPlatos.getItems().remove(nombrePlato);
-            
-        }
-        
-        
 
+        comboBoxPlatos.getItems().remove(nombrePlato);
+        
+        platosSeleccionadosCadena += nombrePlato + "\n";
+        
+        textAreaPlatos.setText(platosSeleccionadosCadena);
+        
+        for (Plato plato : platos) {
+            platosIDs.add(plato.getID());
+        }
     }
 
     @FXML
-    private void handleButtonActionSalir(ActionEvent event) throws IOException{
+    private void handleButtonActionSalir(ActionEvent event) throws IOException {
         RestauranteMongo.changeScene("Consultas.fxml", event);
     }
 }
