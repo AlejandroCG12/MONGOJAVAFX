@@ -2,35 +2,23 @@
 
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ComboBox?>
-<?import javafx.scene.control.Menu?>
-<?import javafx.scene.control.MenuBar?>
-<?import javafx.scene.control.MenuItem?>
-<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
 <?import javafx.scene.web.WebView?>
 
-<AnchorPane id="AnchorPane" prefHeight="351.0" prefWidth="583.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="control.ConsultasController">
+<AnchorPane id="AnchorPane" prefHeight="408.0" prefWidth="583.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="control.ConsultasController">
     <children>
-        <Button fx:id="buttonRealizarConsulta" layoutX="200.0" layoutY="47.0" onAction="#handleButtonActionRealizarConsulta" text="Realizar consulta" />
-        <ComboBox fx:id="comboBoxConsultas" layoutX="34.0" layoutY="47.0" prefWidth="150.0" />
-        <TextArea fx:id="TextArea" layoutX="34.0" layoutY="89.0" prefHeight="37.0" prefWidth="503.0" />
-        <MenuBar layoutY="1.0" prefHeight="25.0" prefWidth="583.0">
-            <menus>
-                <Menu mnemonicParsing="false" text="Archivo">
-                    <items>
-                        <MenuItem fx:id="menuItemInsertarMenu" mnemonicParsing="false" onAction="#handleButtonActionInsertarMenu" onMenuValidation="#handleButtonActionInsertarMenu" text="Insertar menu" />
-                        <MenuItem mnemonicParsing="false" text="Insertar plato" />
-                    </items>
-                </Menu>
-                <Menu mnemonicParsing="false" text="Help">
-                    <items>
-                        <MenuItem mnemonicParsing="false" text="About" />
-                    </items>
-                </Menu>
-            </menus>
-        </MenuBar>
-        <Button fx:id="buttonRealizarConsulta1" layoutX="319.0" layoutY="47.0" onAction="#handleButtonActionInsertarMenu" text="Insertar menu" />
-        <Button fx:id="buttonRealizarConsulta11" layoutX="426.0" layoutY="47.0" onAction="#handleButtonActionInsertarPlato" text="Insertar plato" />
-        <WebView fx:id="webViewConsultas" layoutX="34.0" layoutY="134.0" prefHeight="197.0" prefWidth="503.0" />
+        <Button fx:id="buttonRealizarConsulta" layoutX="206.0" layoutY="92.0" onAction="#handleButtonActionRealizarConsulta" text="Realizar consulta" />
+        <ComboBox fx:id="comboBoxConsultas" layoutX="40.0" layoutY="92.0" prefWidth="150.0" />
+        <Button fx:id="buttonRealizarConsulta1" layoutX="453.0" layoutY="92.0" onAction="#handleButtonActionInsertarMenu" text="Insertar menu" />
+        <Button fx:id="buttonRealizarConsulta11" layoutX="343.0" layoutY="92.0" onAction="#handleButtonActionInsertarPlato" text="Insertar plato" />
+        <WebView fx:id="webViewConsultas" layoutX="40.0" layoutY="130.0" prefHeight="246.0" prefWidth="503.0" />
+      <Label layoutX="210.0" text="Restaurante">
+         <font>
+            <Font size="31.0" />
+         </font>
+      </Label>
+      <Label layoutX="40.0" layoutY="68.0" text="Seleccione una consulta:" />
     </children>
 </AnchorPane>

@@ -28,9 +28,11 @@ import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextArea;
 import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
+import modelo.Chef;
 import modelo.Ingrediente;
 import modelo.Menu;
 import modelo.Plato;
+import org.bson.types.ObjectId;
 import org.omg.CORBA.portable.UnknownException;
 
 /**
@@ -51,8 +53,6 @@ public class ConsultasController implements Initializable {
     private Button buttonRealizarConsulta;
     @FXML
     private ComboBox comboBoxConsultas;
-    @FXML
-    private TextArea TextArea;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -106,18 +106,17 @@ public class ConsultasController implements Initializable {
     
 
     private void consultarPlatosMasDe600Calorias() {
-        TextArea.setText("");
 
         BasicDBObject getQuery = new BasicDBObject();
         getQuery.put("calorias", new BasicDBObject("$gt", 600));
         LinkedList<Plato> platos = (LinkedList<Plato>) Util.buscar(colPlato, Plato.class, getQuery);
         
-        htmlConsultas = "<table border=1 width=100%><tr><th>nombre</th>"
-                + "<th>calorias</th>"
-                + "<th>valor real</th>"
-                + "<th>valor comercial</th>"
-                + "<th>receta</th>"
-                + "<th>ingredientes</th></tr>";
+        htmlConsultas = "<table border=1 width=100%><tr><th>Nombre</th>"
+                + "<th>Calorias</th>"
+                + "<th>Valor real</th>"
+                + "<th>Valor comercial</th>"
+                + "<th>Receta</th>"
+                + "<th>Ingredientes</th></tr>";
         for (Plato plato : platos) {
             htmlConsultas += "<tr>";
             
@@ -143,21 +142,19 @@ public class ConsultasController implements Initializable {
 
         htmlConsultas += "</table>";
         webEngineConsultas.loadContent(htmlConsultas);
-        TextArea.setText(platos.toString());
     }
 
     private void consultarPlatosMenosDe4000ValorReal() {
-        TextArea.setText("");
         BasicDBObject getQuery = new BasicDBObject();
         getQuery.put("valor_real", new BasicDBObject("$lt", 4000));
         LinkedList<Plato> platos = (LinkedList<Plato>) Util.buscar(colPlato, Plato.class, getQuery);
         
-        htmlConsultas = "<table border=1 width=100%><tr><th>nombre</th>"
-                + "<th>calorias</th>"
-                + "<th>valor real</th>"
-                + "<th>valor comercial</th>"
-                + "<th>receta</th>"
-                + "<th>ingredientes</th></tr>";
+        htmlConsultas = "<table border=1 width=100%><tr><th>Nombre</th>"
+                + "<th>Calorias</th>"
+                + "<th>Valor real</th>"
+                + "<th>Valor comercial</th>"
+                + "<th>Receta</th>"
+                + "<th>Ingredientes</th></tr>";
         for (Plato plato : platos) {
             htmlConsultas += "<tr>";
             
@@ -184,16 +181,14 @@ public class ConsultasController implements Initializable {
         htmlConsultas += "</table>";
         webEngineConsultas.loadContent(htmlConsultas);
 
-        TextArea.setText(platos.toString());
     }
 
     private void consultarAlbondigas() {
-        TextArea.setText("");
         BasicDBObject getQuery = new BasicDBObject();
         BasicDBObject fields = new BasicDBObject("nombre", 1).append("ingredientes", 1);
         getQuery.put("nombre", "Albondigas");
         LinkedList<Plato> platos = (LinkedList<Plato>) Util.buscar(colPlato, Plato.class, getQuery,fields);
-        htmlConsultas = "<table border=1 width=100%><tr><th>nombre plato</th>"
+        htmlConsultas = "<table border=1 width=100%><tr><th>Nombre plato</th>"
                 + "<th>Ingredientes</th>"
                 + "</tr>";
         for (Plato plato : platos) {
@@ -212,21 +207,19 @@ public class ConsultasController implements Initializable {
         }
         htmlConsultas += "</table>";
         webEngineConsultas.loadContent(htmlConsultas);
-        TextArea.setText(platos.toString());
     }
 
     private void consultarMenusConI() {
-        TextArea.setText("");
         Pattern I = Pattern.compile("I", Pattern.LITERAL);
         BasicDBObject getQuery = new BasicDBObject("nombre", I);
         LinkedList<Menu> menus = (LinkedList<Menu>) Util.buscar(colMenu, Menu.class, getQuery);
 
-        htmlConsultas = "<table border=1 width=100%><tr><th>nombre</th>"
-                + "<th>vigente</th>"
-                + "<th>fecha de inicio</th>"
-                + "<th>fecha de fin</th>"
-                + "<th>chef</th>"
-                + "<th>platos</th></tr>";
+        htmlConsultas = "<table border=1 width=100%><tr><th>Nombre</th>"
+                + "<th>Vigente</th>"
+                + "<th>Fecha de inicio</th>"
+                + "<th>Fecha de fin</th>"
+                + "<th>Chef</th>"
+                + "<th>Platos</th></tr>";
         for (Menu menu : menus) {
             htmlConsultas += "<tr>";
             
@@ -240,25 +233,29 @@ public class ConsultasController implements Initializable {
             
             htmlConsultas += "<th title=\"" + htmlChef + "\">" + menu.getChef().getNombre()+ "</th>";
             
+            String htmlPlatos = "";
             List<String> platosIDs = menu.getPlatosIDs();
             
+            for (String platosID : platosIDs) {
+                
+            }
             
             LinkedList<Plato> platos = null; 
             String htmlPlato = "";
             for (String platoID : platosIDs) {
-                BasicDBObject getQueryP = new BasicDBObject();
-                getQueryP.put("_id", platoID);   
-                platos = (LinkedList<Plato>) Util.buscar(colPlato, Plato.class, getQueryP);
-                if(platos.size() == 1)
-                {
-                    htmlPlato = platos.getFirst().getNombre() + ": $" + platos.getFirst().getValorComercial();
-                }
+                ObjectId pID = new ObjectId(platoID);
                 
-            }           
+                BasicDBObject getQueryP = new BasicDBObject();
+                getQueryP.put("_id", pID);   
+                platos = (LinkedList<Plato>) Util.buscar(colPlato, Plato.class, getQueryP);
+                
+                htmlPlato += platos.getFirst().getNombre() + ": $" + platos.getFirst().getValorComercial() + "\n";
+                
+            }
             
-            if(platos != null && platos.size() == 1)
+            if(platos != null && platos.size() >= 1)
             {
-                htmlConsultas += "<th title=\"" + htmlPlato + "\">" + platos.getFirst().getNombre() + "</th>";
+                htmlConsultas += "<th title=\"" + htmlPlato + "\">" + platosIDs.size() + "</th>";
             }
             else if(platos == null)
             {
@@ -275,16 +272,20 @@ public class ConsultasController implements Initializable {
     }
 
     private void consultarChefs() {
-        TextArea.setText("");
-        BasicDBObject getQuery = new BasicDBObject();
-        BasicDBObject fields = new BasicDBObject("chef", 1);
-        DBCursor cursor = colMenu.find(getQuery, fields);
-        while (cursor.hasNext()) {
-            BasicDBObject objeto = (BasicDBObject) cursor.next();
-            String cadena = "Nombre: " + ((BasicDBObject) objeto.get("chef")).get("nombre")
-                    + ", Experiencia: " + ((BasicDBObject) objeto.get("chef")).get("experiencia") + ", Email: " + ((BasicDBObject) objeto.get("chef")).get("email");
-            TextArea.setText(cadena + "\n" + TextArea.getText());
+        LinkedList<Menu> menus = (LinkedList<Menu>)Util.buscar(colMenu, Menu.class, null);
+        htmlConsultas = "<table border=1 width=100%><tr><th>Nombre</th>"
+                + "<th>Años de experiencia</th>"
+                + "<th>Email</th></tr>";
+        
+        for (Menu menu : menus) {
+            Chef chef = menu.getChef();
+            htmlConsultas += "<tr><th>" + chef.getNombre() + "</th>"
+                + "<th>" + chef.getExperiencia() + "</th>"
+                + "<th>" + chef.getEmail()+ "</th></tr>";
         }
+        
+        htmlConsultas += "</table>";
+        webEngineConsultas.loadContent(htmlConsultas);
     }
 
 }
