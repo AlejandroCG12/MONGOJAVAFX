@@ -105,6 +105,11 @@ public class ConsultasController implements Initializable {
     private void handleButtonActionInsertarMenu(ActionEvent event) throws IOException {
         RestauranteMongo.changeScene("Menu.fxml", event);
     }
+    
+    @FXML
+    private void handleButtonActionInsertarPlato(ActionEvent event) throws IOException {
+        RestauranteMongo.changeScene("Plato.fxml", event);
+    }
 
     
 

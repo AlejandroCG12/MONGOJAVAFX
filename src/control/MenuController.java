@@ -112,18 +112,14 @@ public class MenuController implements Initializable {
             
         for (Plato plato : platos) {
             comboBoxPlatos.getItems().remove(nombrePlato);
-            ObservableList<String> PlatosNombres = FXCollections.observableArrayList();
-            for (Plato plato : platos) {
-                if (plato.getNombre().equals(nombrePlato)) {
-                    PlatosNombres.add(plato.getNombre());
-                }
-
-            }
-            comboBoxPlatos.setItems(PlatosNombres);
         }
             
             
 
     }
 
+    @FXML
+    private void handleButtonActionSalir(ActionEvent event) throws IOException{
+        RestauranteMongo.changeScene("Consultas.fxml", event);
+    }
 }
