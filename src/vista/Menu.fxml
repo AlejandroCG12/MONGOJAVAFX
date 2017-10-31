@@ -27,8 +27,8 @@
       <Text layoutX="168.0" layoutY="178.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Nombre" wrappingWidth="47.13671875" />
       <TextField fx:id="textFieldNombreChef" layoutX="249.0" layoutY="165.0" />
       <TextField fx:id="textFieldExperiencia" layoutX="249.0" layoutY="206.0" />
-      <Text layoutX="170.0" layoutY="214.0" strokeType="OUTSIDE" strokeWidth="0.0" text="años de experiencia" wrappingWidth="65.13671875" />
-      <Text layoutX="170.0" layoutY="263.0" strokeType="OUTSIDE" strokeWidth="0.0" text="email" wrappingWidth="65.13671875" />
+      <Text layoutX="170.0" layoutY="214.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Años de experiencia" wrappingWidth="65.13671875" />
+      <Text layoutX="170.0" layoutY="263.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Email" wrappingWidth="65.13671875" />
       <TextField fx:id="textFieldEmail" layoutX="249.0" layoutY="246.0" />
       <Button layoutX="155.0" layoutY="452.0" mnemonicParsing="false" onAction="#handleButtonActionInsertarMenu" prefHeight="25.0" prefWidth="73.0" text="Insertar" />
       <Text layoutX="108.0" layoutY="336.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Platos" wrappingWidth="65.13671875" />

@@ -42,11 +42,9 @@ public class MenuController implements Initializable {
 
     private DB db;
     private DBCollection colPlato;
-    private DBCollection colMenu;
-    
+    private DBCollection colMenu;    
     private List<String> platosIDs;
 
-    
     @FXML
     private TextArea textAreaPlatos;
     @FXML
@@ -78,9 +76,7 @@ public class MenuController implements Initializable {
             PlatosNombres.add(plato.getNombre());
         }
         comboBoxPlatos.setItems(PlatosNombres);
-        
         platosIDs = new LinkedList<>();
-
     }
 
     @FXML
@@ -101,6 +97,14 @@ public class MenuController implements Initializable {
         Menu menu = new Menu(nombre, vigente, inicio, fin, chef, platosIDs);
         colMenu.insert(menu);
         platosIDs.clear();
+        textFieldNombre.setText("");
+        checkBoxVigente.setSelected(false);
+        datePickerFechaInicio.setValue(null);
+        datePickerFechaFin.setValue(null);
+        textFieldNombreChef.setText("");
+        textFieldExperiencia.setText("");
+        textFieldEmail.setText("");
+        textAreaPlatos.setText("");
 
     }
 

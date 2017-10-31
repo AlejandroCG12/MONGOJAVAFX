@@ -10,12 +10,14 @@ import com.mongodb.DB;
 import com.mongodb.DBCollection;
 import java.io.IOException;
 import java.net.URL;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.ListView;
+import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import modelo.Ingrediente;
 import modelo.Menu;
@@ -31,19 +33,20 @@ public class PlatoController implements Initializable {
     DB db;
     DBCollection colPlato;
     DBCollection colMenu;
-    List<Ingrediente> Ingredientes = null;
+    List<Ingrediente> Ingredientes;
     
     @FXML
     private TextField TFNombreP,TFNombreI,TFCalorias,TFVR,TFVC,TFReceta,TFCantidad,TFMedida;
     @FXML
-    private ListView ListView;
+    private TextArea TextArea;
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         db = Util.conectarBaseDatos();
         colPlato = Util.conectarCollection(db, Plato.class);
         colMenu = Util.conectarCollection(db, Menu.class);
-
+        
+        Ingredientes = new LinkedList<>();
     }    
     
     @FXML
@@ -68,6 +71,7 @@ public class PlatoController implements Initializable {
         TFVR.setText("");
         TFVC.setText("");
         TFReceta.setText("");
+        TextArea.setText("");
     }
     
     @FXML
@@ -75,12 +79,15 @@ public class PlatoController implements Initializable {
         String nombreI = TFNombreI.getText();
         Double cantidad = Double.parseDouble(TFCantidad.getText());
         String medida = TFMedida.getText();
+        String ingredientesagregados = TextArea.getText();
         
         Ingrediente ing = new Ingrediente(nombreI, cantidad, medida);
         Ingredientes.add(ing);
         TFNombreI.setText("");
         TFCantidad.setText("");
         TFMedida.setText("");
+        ingredientesagregados += nombreI+"\n";
+        TextArea.setText(ingredientesagregados);
     }
     
     @FXML

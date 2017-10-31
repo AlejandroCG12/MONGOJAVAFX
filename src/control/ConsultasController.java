@@ -66,14 +66,6 @@ public class ConsultasController implements Initializable {
         colPlato = Util.conectarCollection(db, Plato.class);
         colMenu = Util.conectarCollection(db, Menu.class);
 
-        List<Ingrediente> i = new LinkedList<>();
-        i.add(new Ingrediente("Agua", 1, "l"));
-        i.add(new Ingrediente("Papa", 2, "unidades"));
-        i.add(new Ingrediente("sal", 10, "g"));
-        i.add(new Ingrediente("Pollo", 15, "Kg"));
-        Plato p = new Plato("Sopa", 3000, 3500, 800, "la otra receta", i);
-//        colPlato.save(p);
-
         ObservableList<String> consultas = FXCollections.observableArrayList(
                 "Mostrar todos los platos con más de 600 calorias",
                 "Mostrar los platos con menos de 4000 en valor real",
