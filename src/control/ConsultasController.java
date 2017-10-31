@@ -1,4 +1,4 @@
-/*
+ /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
@@ -200,13 +200,27 @@ public class ConsultasController implements Initializable {
         BasicDBObject getQuery = new BasicDBObject();
         BasicDBObject fields = new BasicDBObject("nombre", 1).append("ingredientes", 1);
         getQuery.put("nombre", "Albondigas");
-        DBCursor cursor = colPlato.find(getQuery, fields);
-        while (cursor.hasNext()) {
-            BasicDBObject objeto = (BasicDBObject) cursor.next();
-            String cadena = "Nombre: " + (String) objeto.get("nombre");
+        LinkedList<Plato> platos = (LinkedList<Plato>) Util.buscar(colPlato, Plato.class, getQuery,fields);
+        htmlConsultas = "<table border=1 width=100%><tr><th>nombre plato</th>"
+                + "<th>Ingredientes</th>"
+                + "</tr>";
+        for (Plato plato : platos) {
+            
+            htmlConsultas += "<tr>";
+            
+            htmlConsultas += "<th>" + plato.getNombre() + "</th>";
 
-            TextArea.setText(cadena + "\n" + TextArea.getText());
+            List<Ingrediente> ingredientes = (List<Ingrediente>)plato.getIngredientes();
+            String htmlIngredientes = "";
+            for (Ingrediente ingrediente : ingredientes) {
+                htmlIngredientes += ingrediente.getNombre() + ": " + ingrediente.getCantidad() + " " + ingrediente.getMedida() + "\n";
+            }          
+            htmlConsultas += "<th title=\"" + htmlIngredientes + "\">" + plato.getIngredientes().size()+ "</th>";
+            htmlConsultas += "</tr>";
         }
+        htmlConsultas += "</table>";
+        webEngineConsultas.loadContent(htmlConsultas);
+        TextArea.setText(platos.toString());
     }
 
     private void consultarMenusConI() {

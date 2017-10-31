@@ -11,6 +11,7 @@ import com.mongodb.DBCollection;
 import com.mongodb.DBCursor;
 import com.mongodb.DBObject;
 import com.mongodb.MongoClient;
+import com.mongodb.client.model.DBCollectionFindOptions;
 import java.util.LinkedList;
 import org.omg.CORBA.portable.UnknownException;
 
@@ -66,4 +67,19 @@ public class Util {
         }
         return xxx;
     }
+    public static LinkedList<? extends BasicDBObject> buscar(DBCollection collection, Class<? extends BasicDBObject> clase,BasicDBObject getQuery,BasicDBObject field) {
+        collection.getCollection(clase.getSimpleName());
+        DBCursor cursor = collection.find(getQuery,field);
+
+        LinkedList<BasicDBObject> xxx = new LinkedList<>();
+
+        while (cursor.hasNext()) {
+            DBObject objeto = cursor.next();
+
+            xxx.add((BasicDBObject) objeto);  
+
+        }
+        return xxx;
+    }
+    
 }

@@ -109,12 +109,15 @@ public class MenuController implements Initializable {
         getQuery.put("nombre", nombrePlato);
         LinkedList<Plato> platos = (LinkedList<Plato>) Util.buscar(colPlato, Plato.class, getQuery);
         System.out.println(platos);
-            
-        for (Plato plato : platos) {
+          
+        if(comboBoxPlatos.getItems().contains(nombrePlato))
+        {
+            System.out.println(comboBoxPlatos.getValue() + " a");
             comboBoxPlatos.getItems().remove(nombrePlato);
+            
         }
-            
-            
+        
+        
 
     }
 
