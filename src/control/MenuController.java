@@ -113,7 +113,7 @@ public class MenuController implements Initializable {
             
             ObservableList<String> PlatosNombres = FXCollections.observableArrayList();
             for (Plato plato : platos) {
-                if (!plato.getNombre().equals(nombrePlato)) {
+                if (plato.getNombre().equals(nombrePlato)) {
                     PlatosNombres.add(plato.getNombre());
                 }
 
