@@ -105,12 +105,13 @@ public class MenuController implements Initializable {
         String nombrePlato = comboBoxPlatos.getValue() + "";
         System.out.println(nombrePlato);
         System.out.println("-----------------------------------------------------");
-        if (nombrePlato != null) {
-            BasicDBObject getQuery = new BasicDBObject();
-            getQuery.put("nombre", nombrePlato);
-            LinkedList<Plato> platos = (LinkedList<Plato>) Util.buscar(colPlato, Plato.class, getQuery);
-            System.out.println(platos);
+        BasicDBObject getQuery = new BasicDBObject();
+        getQuery.put("nombre", nombrePlato);
+        LinkedList<Plato> platos = (LinkedList<Plato>) Util.buscar(colPlato, Plato.class, getQuery);
+        System.out.println(platos);
             
+        for (Plato plato : platos) {
+            comboBoxPlatos.getItems().remove(nombrePlato);
             ObservableList<String> PlatosNombres = FXCollections.observableArrayList();
             for (Plato plato : platos) {
                 if (plato.getNombre().equals(nombrePlato)) {
@@ -120,6 +121,8 @@ public class MenuController implements Initializable {
             }
             comboBoxPlatos.setItems(PlatosNombres);
         }
+            
+            
 
     }
 
