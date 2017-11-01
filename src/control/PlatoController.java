@@ -62,7 +62,7 @@ public class PlatoController implements Initializable {
         Double valor_comercial = Double.parseDouble(TFVC.getText());
         String receta = TFReceta.getText();
         
-        Plato plato = new Plato(nombreP, Calorias, valor_real, valor_comercial, receta, Ingredientes);
+        Plato plato = new Plato(nombreP, valor_real, valor_comercial, Calorias, receta, Ingredientes);
         colPlato.insert(plato);
         
         Ingredientes.clear();
